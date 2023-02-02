@@ -43,9 +43,9 @@ afterEvaluate {
             release(MavenPublication){
                 from components.release
 
-                groupId = 'com.github.roadtola'
-                artifactId = "rich-path-compose"
-                version = '1.0.0'
+                groupId = 'com.richpathanimator'
+                artifactId = "richPathCompose"
+                version = '0.0.9'
             }
         }
     }
