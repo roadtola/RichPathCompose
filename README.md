@@ -1,7 +1,5 @@
 ## *** Library maintenance is paused until further notice! ***
 
-
-
 <img src="/screenshots/header.gif" width="400">
 <img src="/screenshots/samples.gif" align="right" width="120">
 

@@ -45,6 +45,7 @@ class RichPathAnimator {
         return animationBuilder
     }
 
+
     internal fun thenAnimate(paths: Array<out RichPath>): AnimationBuilder {
         val nextRichPathAnimator = RichPathAnimator()
         this.next = nextRichPathAnimator
@@ -75,11 +76,11 @@ class RichPathAnimator {
         interpolator?.let { animatorSet.interpolator = it }
 
         animatorSet.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator?) {
+            override fun onAnimationStart(p0: Animator) {
                 animationListener?.onStart()
             }
 
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(p0: Animator) {
                 animationListener?.onStop()
                 next?.let {
                     it.prev = null
@@ -87,10 +88,10 @@ class RichPathAnimator {
                 }
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
+            override fun onAnimationCancel(p0: Animator) {
             }
 
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationRepeat(p0: Animator) {
             }
         })
 

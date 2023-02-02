@@ -3,6 +3,7 @@ package com.richpath.model
 import android.content.Context
 import android.content.res.XmlResourceParser
 import android.graphics.Matrix
+import com.richpath.RichPath
 import com.richpath.util.XmlParser
 
 class Group(context: Context, xpp: XmlResourceParser) {
@@ -26,7 +27,9 @@ class Group(context: Context, xpp: XmlResourceParser) {
         private set
     var name: String? = null
         private set
+    var paths: ArrayList<RichPath> = arrayListOf()
     private var matrix: Matrix? = null
+
 
     init {
         inflate(context, xpp)

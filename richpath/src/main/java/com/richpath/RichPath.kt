@@ -22,8 +22,18 @@ class RichPath(private val src: Path) : Path(src) {
             field = value
             onPathUpdated()
         }
+    var originalFillColor = Color.TRANSPARENT
+        private set(value) {
+            field = value
+            onPathUpdated()
+        }
     var strokeColor = Color.TRANSPARENT
         set(value) {
+            field = value
+            onPathUpdated()
+        }
+    var originalStrokeColor = Color.TRANSPARENT
+        private set(value) {
             field = value
             onPathUpdated()
         }
@@ -32,8 +42,18 @@ class RichPath(private val src: Path) : Path(src) {
             field = value
             onPathUpdated()
         }
+    var originalFillAlpha = 1f
+        private set(value) {
+            field = value
+            onPathUpdated()
+        }
     var strokeAlpha = 1f
         set(value) {
+            field = value
+            onPathUpdated()
+        }
+    var originalStrokeAlpha = 1f
+        private set(value) {
             field = value
             onPathUpdated()
         }
@@ -42,8 +62,20 @@ class RichPath(private val src: Path) : Path(src) {
             field = value
             onPathUpdated()
         }
+    var originalStrokeWidth = 0f
+        private set(value) {
+            field = value
+            onPathUpdated()
+        }
+
     var trimPathStart = 0f
         set(value) {
+            field = value
+            trim()
+            onPathUpdated()
+        }
+    var originalTrimPathStart = 0f
+        private set(value) {
             field = value
             trim()
             onPathUpdated()
@@ -54,15 +86,31 @@ class RichPath(private val src: Path) : Path(src) {
             trim()
             onPathUpdated()
         }
+    var originalTrimPathEnd = 1f
+        private set(value) {
+            field = value
+            trim()
+            onPathUpdated()
+        }
     var trimPathOffset = 0f
         set(value) {
             field = value
             trim()
             onPathUpdated()
         }
-
+    var originalTrimPathOffset = 0f
+        private set(value) {
+            field = value
+            trim()
+            onPathUpdated()
+        }
     var strokeLineCap = Paint.Cap.BUTT
         set(value) {
+            field = value
+            onPathUpdated()
+        }
+    var originalStrokeLineCap = Paint.Cap.BUTT
+        private set(value) {
             field = value
             onPathUpdated()
         }
@@ -71,9 +119,19 @@ class RichPath(private val src: Path) : Path(src) {
             field = value
             onPathUpdated()
         }
-
+    var originalStrokeLineJoin = Paint.Join.MITER
+        private set(value) {
+            field = value
+            onPathUpdated()
+        }
     var strokeMiterLimit = 4f
         set(value) {
+            field = value
+            onPathUpdated()
+        }
+
+    var originalStrokeMiterLimit = 4f
+        private set(value) {
             field = value
             onPathUpdated()
         }
@@ -253,6 +311,64 @@ class RichPath(private val src: Path) : Path(src) {
         }
     }
 
+    fun clearFillColor(){
+        fillColor = originalFillColor
+    }
+
+    fun clearFillAlpha(){
+        fillAlpha = originalFillAlpha
+    }
+
+    fun clearStrokeAlpha(){
+        strokeAlpha = originalStrokeAlpha
+    }
+
+    fun clearStrokeLineCap(){
+        strokeLineCap = originalStrokeLineCap
+    }
+
+    fun clearStrokeColor(){
+        strokeColor = originalStrokeColor
+    }
+
+    fun clearStrokeLineJoin(){
+        strokeLineJoin = originalStrokeLineJoin
+    }
+
+    fun clearStrokeMiterLimit(){
+        strokeMiterLimit = originalStrokeMiterLimit
+    }
+
+    fun clearStrokeWidth(){
+        strokeWidth = originalStrokeWidth
+    }
+
+    fun clearTrimPathStart(){
+        trimPathStart = originalTrimPathStart
+    }
+
+    fun clearTrimPathEnd(){
+        trimPathEnd = originalTrimPathEnd
+    }
+
+    fun clearTrimPathOffset(){
+        trimPathOffset = originalTrimPathOffset
+    }
+
+    fun clearAll(){
+        clearFillColor()
+        clearFillAlpha()
+        clearStrokeAlpha()
+        clearStrokeLineCap()
+        clearStrokeColor()
+        clearStrokeLineJoin()
+        clearStrokeMiterLimit()
+        clearStrokeWidth()
+        clearTrimPathStart()
+        clearTrimPathEnd()
+        clearTrimPathOffset()
+    }
+
     fun inflate(context: Context, xpp: XmlResourceParser) {
         val pathData = XmlParser.getAttributeString(context, xpp, "pathData", name)
 
@@ -262,25 +378,47 @@ class RichPath(private val src: Path) : Path(src) {
 
         fillAlpha = XmlParser.getAttributeFloat(xpp, "fillAlpha", fillAlpha)
 
+        originalFillAlpha = fillAlpha
+
         fillColor = XmlParser.getAttributeColor(context, xpp, "fillColor", fillColor)
+
+        originalFillColor = fillColor
 
         strokeAlpha = XmlParser.getAttributeFloat(xpp, "strokeAlpha", strokeAlpha)
 
+        originalStrokeAlpha = strokeAlpha
+
         strokeColor = XmlParser.getAttributeColor(context, xpp, "strokeColor", strokeColor)
+
+        originalStrokeColor = strokeColor
 
         strokeLineCap = XmlParser.getAttributeStrokeLineCap(xpp, "strokeLineCap", strokeLineCap)
 
+        originalStrokeLineCap = strokeLineCap
+
         strokeLineJoin = XmlParser.getAttributeStrokeLineJoin(xpp, "strokeLineJoin", strokeLineJoin)
+
+        originalStrokeLineJoin = strokeLineJoin
 
         strokeMiterLimit = XmlParser.getAttributeFloat(xpp, "strokeMiterLimit", strokeMiterLimit)
 
+        originalStrokeMiterLimit = strokeMiterLimit
+
         strokeWidth = XmlParser.getAttributeFloat(xpp, "strokeWidth", strokeWidth)
+
+        originalStrokeWidth = strokeWidth
 
         trimPathStart = XmlParser.getAttributeFloat(xpp, "trimPathStart", trimPathStart)
 
+        originalTrimPathStart = trimPathStart
+
         trimPathEnd = XmlParser.getAttributeFloat(xpp, "trimPathEnd", trimPathEnd)
 
+        originalTrimPathEnd = trimPathEnd
+
         trimPathOffset = XmlParser.getAttributeFloat(xpp, "trimPathOffset", trimPathOffset)
+
+        originalTrimPathOffset = trimPathOffset
 
         fillType = XmlParser.getAttributePathFillType(xpp, "fillType", fillType)
 
@@ -334,7 +472,7 @@ class RichPath(private val src: Path) : Path(src) {
     }
 
     interface OnPathClickListener {
-        fun onClick(richPath: RichPath)
+        fun onClick(richGroup: Group?,richPath: RichPath)
     }
 
 }

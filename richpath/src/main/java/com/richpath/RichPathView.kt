@@ -6,9 +6,30 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.annotation.DrawableRes
 import androidx.annotation.IntRange
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.richpath.model.Group
 import com.richpath.pathparser.PathParser
 import com.richpath.model.Vector
 import org.xmlpull.v1.XmlPullParserException
@@ -16,9 +37,10 @@ import com.richpath.util.XmlParser
 import java.io.IOException
 import kotlin.math.min
 
-class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : AppCompatImageView(context, attrs, defStyleAttr) {
+class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
+    AppCompatImageView(context!!, attrs, defStyleAttr) {
 
-    constructor(context: Context?, attrs: AttributeSet?): this(context, attrs, 0)
+    constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
 
     private lateinit var vector: Vector
     private var richPathDrawable: RichPathDrawable? = null
@@ -124,6 +146,10 @@ class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
         return richPathDrawable?.findRichPathByName(name)
     }
 
+    fun findRichGroupByName(name: String): Group? {
+        return richPathDrawable?.findRichGroupByName(name)
+    }
+
     /**
      * find the first [RichPath] or null if not found
      * <p>
@@ -171,15 +197,18 @@ class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        when(event?.action) {
+        when (event?.action) {
             MotionEvent.ACTION_UP -> {
                 performClick()
             }
         }
 
         richPathDrawable?.getTouchedPath(event)?.let { richPath ->
-            richPath.onPathClickListener?.onClick(richPath)
-            this.onPathClickListener?.onClick(richPath)
+            val group = richPathDrawable?.getAllRichGroups()
+                ?.firstOrNull { group -> group.paths.any { it == richPath } }
+
+            richPath.onPathClickListener?.onClick(group,richPath)
+            this.onPathClickListener?.onClick(group,richPath)
         }
         return true
     }

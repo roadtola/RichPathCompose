@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'maven-publish'
 group = 'com.github.tarek360'
 
 android {
@@ -31,8 +30,19 @@ dependencies {
     implementation project(path: ':richpath')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espressoVersion", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     testImplementation "junit:junit:$junitVersion"
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication){
+                from components.release
+
+                groupId = 'com.github.roadtola'
+                artifactId = "rich-path-compose"
+                version = '1.0.0'
+            }
+        }
+    }
 }

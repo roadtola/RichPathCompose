@@ -3,14 +3,17 @@ package com.richpathanimator
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.util.Log
 import android.view.animation.Interpolator
 import com.richpath.RichPath
 import com.richpath.pathparser.PathDataNode
 import com.richpath.pathparser.PathParserCompat
 
-class AnimationBuilder(private val richPathAnimator: RichPathAnimator,
-                       private val paths: Array<out RichPath>) {
+class AnimationBuilder(
+    private val richPathAnimator: RichPathAnimator,
+    private val paths: Array<out RichPath>
+) {
 
     companion object {
         private const val DEFAULT_DURATION = 300L
@@ -149,13 +152,18 @@ class AnimationBuilder(private val richPathAnimator: RichPathAnimator,
 
         val pathDataNodesArray = pathDataNodes.toTypedArray()
         if (!PathParserCompat.canMorph(pathDataNodesArray)) {
-            Log.w("RichPathAnimator", "the paths aren't compatible for morphing. The paths should have exact same length of commands, and exact same length of parameters for each command")
+            Log.w(
+                "RichPathAnimator",
+                "the paths aren't compatible for morphing. The paths should have exact same length of commands, and exact same length of parameters for each command"
+            )
             return@apply
         }
 
         for (path in paths) {
-            val objectAnimator = ObjectAnimator.ofObject(path,
-                    "pathDataNodes", PathEvaluator(), *pathDataNodesArray)
+            val objectAnimator = ObjectAnimator.ofObject(
+                path,
+                "pathDataNodes", PathEvaluator(), *pathDataNodesArray
+            )
             applyAnimatorProperties(objectAnimator, path)
         }
     }
@@ -232,4 +240,18 @@ class AnimationBuilder(private val richPathAnimator: RichPathAnimator,
     fun animationListener(listener: AnimationListener) = apply {
         richPathAnimator.animationListener = listener
     }
+
+    fun animationListener(onStart: () -> Unit, onStop: () -> Unit) = apply {
+        richPathAnimator.animationListener = object : AnimationListener {
+            override fun onStart() {
+                onStart()
+            }
+
+            override fun onStop() {
+                onStop()
+            }
+
+        }
+    }
+
 }

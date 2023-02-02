@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/subtitle"
         android:layout_centerHorizontal="true"
-        app:vector="@drawable/ic_android" />
+        app:vector="@drawable/ic_front_muscles" />
 
     <Button
         android:id="@+id/animationSamplesButton"

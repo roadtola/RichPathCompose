@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.XmlResourceParser
 import android.graphics.Paint
 import android.graphics.Path
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.richpath.model.Group
 import com.richpath.model.Vector
@@ -21,6 +22,8 @@ object XmlParser {
     fun parseVector(vector: Vector, xpp: XmlResourceParser, context: Context) {
         val groupStack = Stack<Group>()
         var eventType = xpp.eventType
+        var currentGroup :Group? = null
+
         while (eventType != XmlPullParser.END_DOCUMENT) {
             val tagName = xpp.name
             if (eventType == XmlPullParser.START_TAG) {
@@ -28,6 +31,8 @@ object XmlParser {
                     Vector.TAG_NAME -> parseVectorElement(vector, xpp, context)
                     Group.TAG_NAME -> {
                         val group = parseGroupElement(context, xpp)
+                        currentGroup = group
+
                         if (!groupStack.empty()) {
                             group.scale(groupStack.peek().matrix())
                         }
@@ -38,6 +43,7 @@ object XmlParser {
                             if (!groupStack.empty()) {
                                 applyGroup(groupStack.peek())
                             }
+                            currentGroup?.paths?.add(this)
                             vector.paths.add(this)
                         }
                     }
@@ -47,6 +53,10 @@ object XmlParser {
                     if (!groupStack.empty()) {
                         groupStack.pop()
                     }
+                    if(currentGroup?.name != null){
+                        vector.groups.add(currentGroup)
+                    }
+                    currentGroup = null
                 }
             }
             eventType = xpp.next()

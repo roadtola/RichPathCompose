@@ -30,6 +30,7 @@ class Vector {
     var currentHeight = 0f
 
     var paths: ArrayList<RichPath> = ArrayList()
+    var groups: ArrayList<Group> = ArrayList()
 
     fun inflate(xpp: XmlResourceParser, context: Context) {
         name = XmlParser.getAttributeString(context, xpp, "name", name)

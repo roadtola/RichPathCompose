@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import androidx.annotation.IntRange
 import com.richpath.listener.OnRichPathUpdatedListener
+import com.richpath.model.Group
 import com.richpath.pathparser.PathParser
 import com.richpath.util.PathUtils
 import com.richpath.model.Vector
@@ -21,7 +22,7 @@ class RichPathDrawable(private val vector: Vector?, private val scaleType: Image
         listenToPathsUpdates()
     }
 
-    override fun onBoundsChange(bounds: Rect?) {
+    override fun onBoundsChange(bounds: Rect) {
         super.onBoundsChange(bounds)
         bounds?.let {
             if (it.width() > 0 && it.height() > 0) {
@@ -83,6 +84,14 @@ class RichPathDrawable(private val vector: Vector?, private val scaleType: Image
             }
         }
         return null
+    }
+
+    fun findRichGroupByName(name: String): Group? {
+        return vector?.groups?.firstOrNull { it.name == name }
+    }
+
+    fun getAllRichGroups(): Array<Group>{
+        return vector?.groups?.toTypedArray() ?: arrayOf()
     }
 
     /**
