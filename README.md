@@ -1,38 +1,77 @@
-## *** Library maintenance is paused until further notice! ***
-
 <img src="/screenshots/header.gif" width="400">
 <img src="/screenshots/samples.gif" align="right" width="120">
 
-[![CircleCI](https://circleci.com/gh/tarek360/RichPath.svg?style=svg)](https://circleci.com/gh/tarek360/RichPath)
-[![Release](https://jitpack.io/v/tarek360/RichPath.svg)](https://jitpack.io/#tarek360/RichPath) ![API](https://img.shields.io/badge/API-14%2B-brightgreen.svg?style=flat) [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=https://github.com/tarek360/RichPath)
+[![](https://jitpack.io/v/roadtola/RichPathCompose.svg)](https://jitpack.io/#roadtolaRichPathCompose)
 
-💪 Rich Android Path.     🤡 Draw as you want.    🎉 Animate much as you can.
-
-### Download sample app:
-<a href="https://play.google.com/store/apps/details?id=com.pathanimator.sample">
-<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" width="220">
-</a>
+**Compose Support** 💪 Rich Android Path. 🤡 Draw as you want. 🎉 Animate much as you can.
 
 ### Features
 
 - **Full Animation Control on Paths and VectorDrawables:**
-Animate any attribute in a specific path in the VectorDrawable
+  Animate any attribute in a specific path in the VectorDrawable
+- **Perfect for animating complex vectors**
+  <img src="/screenshots/preview.gif" width="300">
 
-`fillColor`, `strokeColor`, `strokeAlpha`, `fillAlpha`, `size`, `width`, `height`, `scale`, `scaleX`, `scaleY`, `rotation`, `translationX`, `translationY`, `trimPathStart`, `trimPathEnd`, `trimPathOffset`.
+`fillColor`, `strokeColor`, `strokeAlpha`, `fillAlpha`, `size`, `width`, `height`, `scale`, `scaleX`, `scaleY`, `rotation`, `translationX`, `translationY`, `trimPathStart`, `trimPathEnd`, `trimPathOffset`, `clearFillColor`, `clearFillAlpha`, `clearAll`.
 
 - **Path morphing:**
 
 <img src="/screenshots/animal_path_morphing.gif" width="250">
 
-```Java
+```Kotlin
 RichPathAnimator.animate(richPath)
        .pathData(pathData1, pathData2, ...)
        .start();
 ```
 
-## Just 3 Steps to Animate any path.
+## Add dependency
+
+Add it in your root build.gradle at the end of repositories:
+
+```gradle
+    allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+
+```
+
+Then Add the dependency
+
+```gradle
+    dependencies {
+	        implementation 'com.github.roadtola:RichPathCompose:1.0.2'
+	}
+```
+
+## Jeptack Compose Usage
+
+```kotlin
+    RichPathCompose(
+        modifier = Modifier
+            .height(400.dp)
+            .width(200.dp),
+        vectorId = R.drawable.ic_front_muscles,
+        scaleType = ImageView.ScaleType.FIT_CENTER,
+        onLoad = {
+            // invoke after vector is loaded
+            allPaths = it.allPaths()
+        },
+        onPathClick = { group, path ->
+            // invoke after path is clicked
+            // return clicked path and group if exists
+            text = "Group: ${group?.name}.${"\n"}Path: ${path.name}"
+            selectedGroup = group?.paths?.toTypedArray() ?: arrayOf()
+        }
+    )
+```
+
+## Non Compose
 
 #### 1. In your layout.
+
 ```xml
     <com.richpath.RichPathView
         android:layout_width="wrap_content"
@@ -41,8 +80,9 @@ RichPathAnimator.animate(richPath)
 ```
 
 #### 2. Find your richPath.
- ```java
- // by path name
+
+```java
+// by path name
 RichPath richPath = richPathView.findRichPathByName("path_name");
 // or if it contains one path
 RichPath richPath = richPathView.findFirstRichPath();
@@ -51,16 +91,18 @@ RichPath richPath = richPathView.findRichPathByIndex(0);
 ```
 
 #### 3. Use the RichPathAnimator to animate your richPath.
- ```java
+
+```java
 RichPathAnimator.animate(richPath)
-        .trimPathEnd(value1, value2, ...)
-        .fillColor(value1, value2, ...)
-        .start();
+       .trimPathEnd(value1, value2, ...)
+       .fillColor(value1, value2, ...)
+       .start();
 ```
 
 ## Example
 
 #### notification icon vector drawable
+
 <img src="/screenshots/ic_notifications.png" align="right" width="120">
 
 ```xml
@@ -87,6 +129,7 @@ RichPathAnimator.animate(richPath)
 ```
 
 #### XML
+
 ```xml
     <com.richpath.RichPathView
         android:id="@+id/ic_notifications"
@@ -96,6 +139,7 @@ RichPathAnimator.animate(richPath)
 ```
 
 #### Java
+
 <img src="/screenshots/ic_notifications.gif" align="right" width="120">
 
 ```java
@@ -114,68 +158,44 @@ RichPathAnimator.animate(top)
         .start();
 ```
 
-
-### Installation
-
-Add the following dependency to your module `build.gradle` file:
-```gradle
-dependencies {
-	...
-	implementation 'com.github.tarek360.RichPath:animator:0.1.1'
-}
-```
-
-Add this to your root `build.gradle` file (**not** your module `build.gradle` file) :
-```gradle
-allprojects {
-	repositories {
-		...
-		maven { url "https://jitpack.io" }
-	}
-}
-```
-
 ### More Control by the RichPathAnimator
 
- - **Animate multiple paths sequentially or at the same time**
- ```java
+- **Group your vectors for more easy and convenient control**
+
+```kotlin
+    richPathView.findRichGroupByName(value1)
+```
+
+- **Animate multiple paths sequentially or at the same time**
+
+```java
 RichPathAnimator
-        .animate(richPath1, richPath2)
-        .rotation(value1, value2, ...)
+       .animate(richPath1, richPath2)
+       .rotation(value1, value2, ...)
 
-        //Animate the same path or another with different animated attributes.
-        .andAnimate(richPath3)
-        .scale(value1, value2, ...)
+       //Animate the same path or another with different animated attributes.
+       .andAnimate(richPath3)
+       .scale(value1, value2, ...)
 
-        //Animate after the end of the last animation.
-        .thenAnimate(richPath4)
-        .strokeColor(value1, value2, ...)
+       //Animate after the end of the last animation.
+       .thenAnimate(richPath4)
+       .strokeColor(value1, value2, ...)
 
-        // start your animation 🎉
-        .start();
+       // start your animation 🎉
+       .start();
 ```
 
- - **Which one of the paths is clicked?**
- ```java
+- **Which one of the paths is clicked?**
+
+```kotlin
 richPathView.setOnPathClickListener(new RichPath.OnPathClickListener() {
-     @Override
-     public void onClick(RichPath richPath) {
+    public void onClick(richGroup: Group?, richPath: RichPath) {
 	    if (richPath.getName().equals("path_name")) {
-	        //TODO do an action when a specific path is clicked.
+	        //TODO do an action when a specific path or group is clicked.
 	    }
-     }
- });
+    }
+});
 ```
-
-## TODO
-
-- ~Clickable path~ (Done)
-- Support clip-path
-- Path animation (animate a RichPath on a path)
-- Reverse animation
-- ...
-
-If you have any suggestion please open an issue for it.
 
 ## Credits
 
@@ -185,23 +205,21 @@ If you have any suggestion please open an issue for it.
 
 ## Developed By
 
-* Ahmed Tarek
- * [tarek360.github.io](http://tarek360.github.io/)
- * [Twitter](https://twitter.com/a_tarek360)
-
+- Ahmed Tarek
+- [tarek360.github.io](http://tarek360.github.io/)
 
 ## License
 
->Copyright 2017 Tarek360
+> Copyright 2017 Tarek360
 
->Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+> Licensed under the Apache License, Version 2.0 (the "License");
+> you may not use this file except in compliance with the License.
+> You may obtain a copy of the License at
 
->   http://www.apache.org/licenses/LICENSE-2.0
+> http://www.apache.org/licenses/LICENSE-2.0
 
->Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+> Unless required by applicable law or agreed to in writing, software
+> distributed under the License is distributed on an "AS IS" BASIS,
+> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+> See the License for the specific language governing permissions and
+> limitations under the License.

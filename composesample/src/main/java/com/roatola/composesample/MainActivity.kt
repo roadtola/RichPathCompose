@@ -86,38 +86,12 @@ class MainActivity : ComponentActivity() {
                             vectorId = R.drawable.ic_front_muscles,
                             scaleType = ImageView.ScaleType.FIT_CENTER,
                             onLoad = {
+                                //after vector is loaded
                                 allPaths = it.allPaths()
-//                                val skin = it.findPath("skin")!!
-//
-//                                RichPathAnimator.animate(*allPaths)
-//                                    .trimPathEnd(0f, 1f)
-//                                    .duration(300)
-//                                    .animationListener(
-//                                        onStart = {
-//                                            allPaths.forEach { it.fillAlpha = 0f }
-//                                        },
-//                                        onStop = {
-//
-//                                        }
-//                                    )
-//                                    .thenAnimate(skin)
-//                                    .fillAlpha(0.3f)
-//                                    .fillColor(Color.parseColor("#e2b07d"))
-//                                    .thenAnimate(*allPaths.filter { it.name !== "skin" }
-//                                        .toTypedArray())
-//                                    .fillAlpha(1f)
-//                                    .interpolator(AccelerateInterpolator())
-//                                    .duration(400)
-//                                    .thenAnimate(*allPaths.filter { it.name != "skin" }.toTypedArray())
-//                                    .fillAlpha(0.3f)
-//                                    .thenAnimate(*selectedGroup)
-//                                    .fillAlpha(0.9f)
-//                                    .duration(500)
-//                                    .start()
-
-
+                                it.findGroup
                             },
                             onPathClick = { group, path ->
+                                //clicked path and group if exists
                                 text = "Group: ${group?.name}.${"\n"}Path: ${path.name}"
                                 selectedGroup = group?.paths?.toTypedArray() ?: arrayOf()
                             }

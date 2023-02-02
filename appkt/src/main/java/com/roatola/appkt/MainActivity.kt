@@ -5,6 +5,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
+import com.richpath.RichPath
+import com.richpath.model.Group
 import com.richpathanimator.RichPathAnimator
 import com.roatola.appkt.databinding.ActivityAnimationSamplesBinding
 
