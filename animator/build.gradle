@@ -41,10 +41,6 @@ afterEvaluate {
         publications {
             release(MavenPublication){
                 from components.release
-
-                groupId = 'com.richpathanimator'
-                artifactId = "richPathAnimator"
-                version = '1.0.5'
             }
         }
     }

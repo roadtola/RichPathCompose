@@ -53,10 +53,6 @@ afterEvaluate {
         publications {
             release(MavenPublication){
                 from components.release
-
-                groupId = 'com.richpath'
-                artifactId = "richPathCompose"
-                version = '1.0.5'
             }
         }
     }
