@@ -55,9 +55,9 @@ afterEvaluate {
             release(MavenPublication){
                 from components.release
 
-                groupId = 'com.richpathanimator'
+                groupId = 'com.richpath'
                 artifactId = "richPathCompose"
-                version = '1.0.3'
+                version = '1.0.4'
             }
         }
     }
