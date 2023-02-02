@@ -1,29 +1,15 @@
 package com.richpath
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.ImageView
 import android.widget.ImageView.ScaleType
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.richpath.model.Group
-import com.richpath.model.Vector
-import com.richpath.util.XmlParser
-import org.xmlpull.v1.XmlPullParserException
-import java.io.IOException
-import java.nio.file.Path
 
 @Composable
 fun RichPathCompose(

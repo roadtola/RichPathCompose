@@ -49,4 +49,18 @@ dependencies {
 
 }
 
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication){
+                from components.release
+
+                groupId = 'com.richpathanimator'
+                artifactId = "richPathCompose"
+                version = '1.0.2'
+            }
+        }
+    }
+}
+
 
