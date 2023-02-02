@@ -44,7 +44,7 @@ afterEvaluate {
                 from components.release
 
                 groupId = 'com.richpathanimator'
-                artifactId = "richPathCompose"
+                artifactId = "richPathAnimator"
                 version = '1.0.2'
             }
         }
