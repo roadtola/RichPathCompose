@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
-group = 'com.github.tarek360'
 
 
 android {
@@ -57,7 +56,7 @@ afterEvaluate {
 
                 groupId = 'com.richpath'
                 artifactId = "richPathCompose"
-                version = '1.0.4'
+                version = '1.0.5'
             }
         }
     }
