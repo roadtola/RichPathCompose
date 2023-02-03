@@ -53,6 +53,9 @@ fun RichPathCompose(
                     },
                     findGroup = {
                         view.findRichGroupByName(it)
+                    },
+                    allGroups = {
+                        view.findAllRichGroups()
                     }
                 )
             )
@@ -65,6 +68,7 @@ data class RichPathOperations(
     val findPath: (name: String) -> RichPath?,
     val findGroup: (name: String) -> Group?,
     val allPaths: () -> Array<RichPath>,
+    val allGroups: () -> Array<Group>,
     val findFirstPath: () -> RichPath?,
     val findPathByIndex: (index: Int) -> RichPath?,
     val addPath: (path: android.graphics.Path) -> Unit

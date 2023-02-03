@@ -142,6 +142,10 @@ class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
         return richPathDrawable?.findAllRichPaths() ?: arrayOf()
     }
 
+    fun findAllRichGroups(): Array<Group> {
+        return richPathDrawable?.getAllRichGroups() ?: arrayOf()
+    }
+
     fun findRichPathByName(name: String): RichPath? {
         return richPathDrawable?.findRichPathByName(name)
     }
@@ -202,7 +206,6 @@ class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
                 performClick()
             }
         }
-
         richPathDrawable?.getTouchedPath(event)?.let { richPath ->
             val group = richPathDrawable?.getAllRichGroups()
                 ?.firstOrNull { group -> group.paths.any { it == richPath } }
@@ -210,6 +213,7 @@ class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
             richPath.onPathClickListener?.onClick(group,richPath)
             this.onPathClickListener?.onClick(group,richPath)
         }
-        return true
+
+        return super.onTouchEvent(event)
     }
 }
