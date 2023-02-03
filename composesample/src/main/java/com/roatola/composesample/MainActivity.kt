@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.richpath.RichPath
 import com.richpath.RichPathCompose
+import com.richpath.model.Group
 import com.richpathanimator.AnimationListener
 import com.richpathanimator.RichPathAnimator
 import com.roatola.composesample.ui.theme.RichpathforkTheme
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
             RichpathforkTheme {
                 // A surface container using the 'background' color from the theme
                 var text by remember { mutableStateOf("Group: .${"\n"}Path: ") }
-                var selectedGroup by remember { mutableStateOf<Array<RichPath>>(arrayOf()) }
+                var selectedGroup by remember { mutableStateOf<Array<Group>>(arrayOf()) }
 //                var selectedGroupColor by remember(selectedGroup) { mutableStateOf<Int>(sele) }
                 var allPaths by remember { mutableStateOf<Array<RichPath>>(arrayOf()) }
                 var size by remember { mutableStateOf(false) }
@@ -46,8 +47,6 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                         .thenAnimate(skin)
-                        .fillAlpha(0.3f)
-                        .thenAnimate(skin)
                         .fillAlpha(0.9f)
                         .interpolator(AccelerateInterpolator())
                         .duration(400)
@@ -55,7 +54,8 @@ class MainActivity : ComponentActivity() {
                 }
 
                 LaunchedEffect(key1 = selectedGroup) {
-                    RichPathAnimator.animate(*allPaths.filter { it.name != "skin" }.toTypedArray())
+                    RichPathAnimator.animate(*allPaths.filter { it.name != "skin" }
+                        .toTypedArray())
                         .fillAlpha(0.3f)
                         .duration(100)
                         .thenAnimate(*selectedGroup)
@@ -83,8 +83,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         RichPathCompose(
                             modifier = Modifier
-                                .height(if(size) 400.dp else 300.dp)
-                                .width(if(size) 200.dp else 150.dp),
+                                .height(if (size) 400.dp else 300.dp)
+                                .width(if (size) 200.dp else 150.dp),
                             vectorId = R.drawable.ic_front_muscles,
                             scaleType = ImageView.ScaleType.FIT_CENTER,
                             onLoad = {
@@ -95,7 +95,8 @@ class MainActivity : ComponentActivity() {
                             onPathClick = { group, path ->
                                 //clicked path and group if exists
                                 text = "Group: ${group?.name}.${"\n"}Path: ${path.name}"
-                                selectedGroup = group?.paths?.toTypedArray() ?: arrayOf()
+                                if (group != null)
+                                    selectedGroup = arrayOf(group)
                             }
                         )
                         Text(

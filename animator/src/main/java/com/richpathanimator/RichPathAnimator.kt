@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.view.animation.Interpolator
 import com.richpath.RichPath
+import com.richpath.model.Group
 
 class RichPathAnimator {
 
@@ -35,6 +36,12 @@ class RichPathAnimator {
         fun animate(vararg paths: RichPath): AnimationBuilder {
             val viewAnimator = RichPathAnimator()
             return viewAnimator.addAnimationBuilder(paths)
+        }
+
+        @JvmStatic
+        fun animate(vararg groups: Group): AnimationBuilder{
+            val viewAnimator = RichPathAnimator()
+            return viewAnimator.addAnimationBuilder(groups.map { it.paths }.flatten().toTypedArray())
         }
 
     }

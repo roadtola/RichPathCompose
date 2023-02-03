@@ -42,7 +42,7 @@ Then Add the dependency
 
 ```gradle
     dependencies {
-	        implementation 'com.github.roadtola:RichPathCompose:1.1.0'
+	        implementation 'com.github.roadtola:RichPathCompose:1.1.1'
 	}
 ```
 

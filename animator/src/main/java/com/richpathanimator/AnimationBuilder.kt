@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.util.Log
 import android.view.animation.Interpolator
 import com.richpath.RichPath
+import com.richpath.model.Group
 import com.richpath.pathparser.PathDataNode
 import com.richpath.pathparser.PathParserCompat
 
@@ -39,8 +40,16 @@ class AnimationBuilder(
         return richPathAnimator.addAnimationBuilder(paths)
     }
 
+    fun andAnimate(vararg groups: Group): AnimationBuilder{
+        return richPathAnimator.addAnimationBuilder(groups.map { it.paths }.flatten().toTypedArray())
+    }
+
     fun thenAnimate(vararg paths: RichPath): AnimationBuilder {
         return richPathAnimator.thenAnimate(paths)
+    }
+
+    fun thenAnimate(vararg groups: Group): AnimationBuilder{
+        return richPathAnimator.thenAnimate(groups.map { it.paths }.flatten().toTypedArray())
     }
 
     /**

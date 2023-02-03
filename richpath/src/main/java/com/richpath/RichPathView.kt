@@ -214,6 +214,6 @@ class RichPathView(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
             this.onPathClickListener?.onClick(group,richPath)
         }
 
-        return super.onTouchEvent(event)
+        return true
     }
 }

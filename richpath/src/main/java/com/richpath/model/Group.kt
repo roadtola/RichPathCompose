@@ -30,6 +30,25 @@ class Group(context: Context, xpp: XmlResourceParser) {
     var paths: ArrayList<RichPath> = arrayListOf()
     private var matrix: Matrix? = null
 
+    fun setFillColor(fillColor: Int){
+        paths.forEach { it.fillColor = fillColor }
+    }
+
+    fun setFillAlpha(fillAlpha: Float){
+        paths.forEach { it.fillAlpha = fillAlpha }
+    }
+
+    fun clearFillColor(){
+        paths.forEach { it.clearFillColor() }
+    }
+
+    fun clearFillAlpha(){
+        paths.forEach { it.clearFillAlpha() }
+    }
+
+    fun clearAll(){
+        paths.forEach { it.clearAll() }
+    }
 
     init {
         inflate(context, xpp)
