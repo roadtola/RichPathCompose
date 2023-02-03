@@ -20,7 +20,7 @@ fun RichPathCompose(
     onPathClick: (group: Group?,path: RichPath) -> Unit = {_,_ ->}
 ) {
 
-    Box(modifier = modifier) {
+    Box(modifier = Modifier) {
         AndroidView(factory = { ctx ->
             val view = RichPathView(ctx, null).apply {
                 layoutParams = ViewGroup.LayoutParams(MATCH_PARENT, MATCH_PARENT)
@@ -33,7 +33,7 @@ fun RichPathCompose(
                 }
             }
             view
-        }, modifier = Modifier, update = {view ->
+        }, modifier = modifier, update = {view ->
             onLoad(
                 RichPathOperations(
                     findPath = {

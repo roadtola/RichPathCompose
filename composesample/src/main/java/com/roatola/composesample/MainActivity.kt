@@ -6,6 +6,7 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
                 var selectedGroup by remember { mutableStateOf<Array<RichPath>>(arrayOf()) }
 //                var selectedGroupColor by remember(selectedGroup) { mutableStateOf<Int>(sele) }
                 var allPaths by remember { mutableStateOf<Array<RichPath>>(arrayOf()) }
+                var size by remember { mutableStateOf(false) }
 
                 LaunchedEffect(key1 = allPaths) {
                     val skin = allPaths.firstOrNull { it.name == "skin" }!!
@@ -81,8 +83,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         RichPathCompose(
                             modifier = Modifier
-                                .height(400.dp)
-                                .width(200.dp),
+                                .height(if(size) 400.dp else 300.dp)
+                                .width(if(size) 200.dp else 150.dp),
                             vectorId = R.drawable.ic_front_muscles,
                             scaleType = ImageView.ScaleType.FIT_CENTER,
                             onLoad = {
@@ -100,6 +102,9 @@ class MainActivity : ComponentActivity() {
                             text = text, modifier = Modifier
                                 .weight(0.5f)
                                 .wrapContentWidth()
+                                .clickable {
+                                    size = !size
+                                }
                         )
                     }
                 }
